@@ -56,7 +56,7 @@ namespace Players
             Destroy(currentShapeshiftableObject.gameObject);
 
             // Instantiate new object
-            currentShapeshiftableObject = Instantiate(Resources.Load<GameObject>(_shapeshiftableObject.Resource)).GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
+            currentShapeshiftableObject = Instantiate(Resources.Load<GameObject>("Objects/" + _shapeshiftableObject.Resource)).GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
             currentShapeshiftableObject.transform.SetParent(transform, false);
 
             // Disable inview collider

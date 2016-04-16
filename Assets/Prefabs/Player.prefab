@@ -348,8 +348,9 @@ MonoBehaviour:
   movement: {fileID: 11472950}
   cameraRotation: {fileID: 11422164}
   gaze: {fileID: 11404412}
-  defaultShapeshiftableObject: {fileID: 0}
-  currentShapeshiftableObject: {fileID: 0}
+  defaultShapeshiftableObject: {fileID: 11450318, guid: b83126b40a1210747b02e61eae0dea9d,
+    type: 2}
+  currentShapeshiftableObject: {fileID: 11427052}
 --- !u!114 &11422164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -380,7 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   original: {fileID: 11427052}
-  resource: Objects/Player
+  resource: Player
   inViewCollider: {fileID: 13562074}
   meshRenderers:
   - {fileID: 2351198}
@@ -588,6 +589,14 @@ MonoBehaviour:
     - Object: {fileID: 463228}
       ObjeckLink: 1235950877
       PropertyPath: m_RootOrder
+      Mode: 0
+    - Object: {fileID: 11417072}
+      ObjeckLink: -520581459
+      PropertyPath: defaultShapeshiftableObject
+      Mode: 0
+    - Object: {fileID: 11417072}
+      ObjeckLink: -520581459
+      PropertyPath: currentShapeshiftableObject
       Mode: 0
     - Object: {fileID: 11427052}
       ObjeckLink: 328055259

@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   original: {fileID: 11481824}
-  resource: Objects/Default
+  resource: Default
   inViewCollider: {fileID: 13581248}
   meshRenderers:
   - {fileID: 2323642}
