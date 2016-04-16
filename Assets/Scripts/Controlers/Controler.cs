@@ -47,33 +47,21 @@ namespace Controlers
 
         public virtual bool PlayerCopy()
         {
-            // TO DO
-            // Add out parameter object
-
             return false;
         }
 
         public virtual bool PlayerPaste()
         {
-            // TO DO
-            // Add out parameter object
-
             return false;
         }
 
         public virtual bool PlayerShapeshift()
         {
-            // TO DO
-            // Add out parameter object
-
             return false;
         }
 
         public virtual bool PlayerUnshapeshift()
         {
-            // TO DO
-            // Add out parameter object
-
             return false;
         }
 

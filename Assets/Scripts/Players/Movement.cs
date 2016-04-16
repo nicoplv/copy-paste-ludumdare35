@@ -85,7 +85,7 @@ namespace Players
                 // Calculate if grounded and update variables
                 RaycastHit raycastHit;
                 grounded = Physics.Raycast(transform.position + Vector3.up * groundedDistance, Vector3.down, out raycastHit, groundedDistance * 2);
-                if (grounded)
+                if (grounded && !jumping)
                 {
                     // Apply inertia on velocity
                     velocity *= groundedMovementInertia;

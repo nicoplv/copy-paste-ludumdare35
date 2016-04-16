@@ -8,13 +8,6 @@ namespace Controlers
 
 		protected Games.Game game;
 
-        protected bool mouseButton1 = false;
-        protected bool mouseButton2 = false;
-
-        protected Vector2 mouseInput = Vector2.zero;
-
-        protected Vector3 moveInput = Vector3.zero;
-
         protected bool playerJump = false;
         protected float playerJumpStartTime = -100f;
 
@@ -31,13 +24,6 @@ namespace Controlers
 
         public void Update()
         {
-            mouseButton1 = Input.GetMouseButton(1);
-            mouseButton2 = Input.GetMouseButton(2);
-
-            mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-
-            moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
             bool playerJumpBuffer = playerJump;
             playerJump = Input.GetKey(KeyCode.Space);
             if (playerJump)
@@ -55,11 +41,12 @@ namespace Controlers
 
         public override Vector2 PlayerRotation()
         {
-            return mouseInput;
+            return new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         }
 
         public override Vector2 PlayerMove()
         {
+            Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             float playerMoveMagnitude = moveInput.magnitude;
             if (playerMoveMagnitude > 1)
                 moveInput /= playerMoveMagnitude;
@@ -75,6 +62,16 @@ namespace Controlers
         #endregion
 
         #region Player Controler Methods
+
+        public override bool PlayerShapeshift()
+        {
+            return Input.GetMouseButtonDown(0);
+        }
+
+        public override bool PlayerUnshapeshift()
+        {
+            return Input.GetMouseButtonDown(1);
+        }
 
         #endregion
     }

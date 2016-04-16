@@ -15,6 +15,7 @@ namespace Statics
 		public static Layer IgnoreRaycast = new Layer("Ignore Raycast");
 		public static Layer Water = new Layer("Water");
 		public static Layer UI = new Layer("UI");
+		public static Layer Object = new Layer("Object");
 		
 		#endregion
 	
@@ -27,6 +28,7 @@ namespace Statics
 			IgnoreRaycast,
 			Water,
 			UI,
+			Object,
 		};
 		
 		#endregion
