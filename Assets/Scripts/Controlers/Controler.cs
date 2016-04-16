@@ -25,19 +25,24 @@ namespace Controlers
 			return false;
 		}
 
-		#endregion
+        #endregion
 
-		#region Player Controler Methods
+        #region Player Controler Methods
 
-		public virtual bool PlayerMove(out Vector3 _moveVector)
-		{
-			_moveVector = Vector3.zero;
-			return false;
-		}
+        public virtual Vector2 PlayerRotation()
+        {
+            return Vector2.zero;
+        }
 
-		public virtual bool PlayerJump()
-		{
-			return false;
+        public virtual Vector2 PlayerMove()
+        {
+            return Vector2.zero;
+        }
+
+        public virtual bool PlayerJump(out float _startTime)
+        {
+            _startTime = -100f;
+            return false;
         }
 
         public virtual bool PlayerCopy()
@@ -57,6 +62,14 @@ namespace Controlers
         }
 
         public virtual bool PlayerShapeshift()
+        {
+            // TO DO
+            // Add out parameter object
+
+            return false;
+        }
+
+        public virtual bool PlayerUnshapeshift()
         {
             // TO DO
             // Add out parameter object
