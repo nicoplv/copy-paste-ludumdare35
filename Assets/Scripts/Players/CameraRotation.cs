@@ -21,7 +21,8 @@ namespace Players
         protected Transform secondRotation;
 
         [SerializeField]
-        protected float lookAtTarget;
+        protected Transform lookAt;
+        public Transform LookAt { set { lookAt = value; } }
 
         [SerializeField]
         protected Vector2 limitY = new Vector2(-60f, 60f);
@@ -41,7 +42,7 @@ namespace Players
             controler = Controlers.Controler.Instance;
 
             // Init camera look at
-            camera.transform.LookAt(transform.position + Vector3.up * lookAtTarget);
+            camera.transform.LookAt(lookAt);
         }
 
         public void Update()
@@ -62,7 +63,7 @@ namespace Players
                 }
 
                 // Update camera look at
-                camera.transform.LookAt(transform.position + Vector3.up * lookAtTarget);
+                camera.transform.LookAt(lookAt);
             }
         }
 

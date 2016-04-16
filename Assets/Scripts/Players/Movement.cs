@@ -15,6 +15,7 @@ namespace Players
 
         [SerializeField]
         protected new Rigidbody rigidbody;
+        public Rigidbody Rigidbody { get { return rigidbody; } }
 
         [SerializeField]
         protected float groundedVelocity = 1f;

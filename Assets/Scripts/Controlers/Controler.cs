@@ -45,22 +45,22 @@ namespace Controlers
             return false;
         }
 
-        public virtual bool PlayerCopy()
-        {
-            return false;
-        }
-
-        public virtual bool PlayerPaste()
-        {
-            return false;
-        }
-
         public virtual bool PlayerShapeshift()
         {
             return false;
         }
 
         public virtual bool PlayerUnshapeshift()
+        {
+            return false;
+        }
+
+        public virtual bool PlayerCopy()
+        {
+            return false;
+        }
+
+        public virtual bool PlayerPaste()
         {
             return false;
         }

@@ -18,6 +18,8 @@ namespace Players
 
         protected ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectInView = null;
 
+        protected ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectCopied = null;
+
         #endregion
 
         #region Unity Methods
@@ -60,6 +62,22 @@ namespace Players
                 // Player Unshapeshift
                 if (controler.PlayerUnshapeshift())
                     player.Unshapeshift();
+
+                // Player Copy
+                if (controler.PlayerCopy() && shapeshiftableObjectInView != null)
+                    shapeshiftableObjectCopied = shapeshiftableObjectInView;
+
+                // Player Paste
+                if (controler.PlayerPaste() && shapeshiftableObjectInView != null && shapeshiftableObjectCopied != null)
+                {
+                    // Instantiate new object
+                    ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectBuffer = Instantiate(Resources.Load<GameObject>("Objects/" + shapeshiftableObjectCopied.Resource)).GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
+                    shapeshiftableObjectBuffer.transform.position = shapeshiftableObjectInView.transform.position;
+                    shapeshiftableObjectBuffer.transform.rotation = shapeshiftableObjectInView.transform.rotation;
+
+                    // Destroy old object in View
+                    Destroy(shapeshiftableObjectInView.gameObject);
+                }
             }
         }
 

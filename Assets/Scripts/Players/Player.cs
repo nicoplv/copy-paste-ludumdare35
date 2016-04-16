@@ -49,18 +49,23 @@ namespace Players
 
         public void ShapeshiftTo(ShapeshiftableObjects.ShapeshiftableObject _shapeshiftableObject)
         {
-            // Buffer the rotation
-            Quaternion rotationBuffer = currentShapeshiftableObject.transform.rotation;
-
             // Remove current object
             Destroy(currentShapeshiftableObject.gameObject);
 
             // Instantiate new object
             currentShapeshiftableObject = Instantiate(Resources.Load<GameObject>("Objects/" + _shapeshiftableObject.Resource)).GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
             currentShapeshiftableObject.transform.SetParent(transform, false);
+            currentShapeshiftableObject.transform.localPosition = Vector3.zero;
+            currentShapeshiftableObject.transform.localRotation = Quaternion.identity;
 
-            // Disable inview collider
-            currentShapeshiftableObject.DisableInView();
+            // Set look at
+            cameraRotation.LookAt = currentShapeshiftableObject.LookAt;
+
+            // Copy mass
+            movement.Rigidbody.mass = currentShapeshiftableObject.Mass;
+
+            // Disable physics
+            currentShapeshiftableObject.DisablePhysics();
         }
 
         public void Unshapeshift()

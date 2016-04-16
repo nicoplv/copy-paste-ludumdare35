@@ -73,6 +73,16 @@ namespace Controlers
             return Input.GetMouseButtonDown(1);
         }
 
+        public override bool PlayerCopy()
+        {
+            return Input.GetMouseButtonDown(2) && !Input.GetKey(KeyCode.LeftShift);
+        }
+
+        public override bool PlayerPaste()
+        {
+            return Input.GetMouseButtonDown(2) && Input.GetKey(KeyCode.LeftShift);
+        }
+
         #endregion
     }
 }

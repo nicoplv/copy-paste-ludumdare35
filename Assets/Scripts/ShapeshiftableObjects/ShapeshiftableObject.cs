@@ -11,15 +11,22 @@ namespace ShapeshiftableObjects
         public bool InView { get { return inView; } }
 
         [SerializeField]
-        protected ShapeshiftableObject original;
-        public ShapeshiftableObject Original { get { return original; } }
-
-        [SerializeField]
         protected string resource;
         public string Resource { get { return resource; } }
 
         [SerializeField]
         protected Collider inViewCollider;
+
+        protected bool Physics = true;
+        protected new Rigidbody rigidbody;
+
+        [SerializeField]
+        protected Transform lookAt;
+        public Transform LookAt { get { return lookAt; } }
+
+        [SerializeField]
+        protected float mass = 1f;
+        public float Mass { get { return mass; } }
 
         [SerializeField]
         protected List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
@@ -30,6 +37,15 @@ namespace ShapeshiftableObjects
         #endregion
 
         #region Unity Methods
+
+        public void Start()
+        {
+            //if (Physics)
+            //{
+            //    rigidbody = gameObject.AddComponent<Rigidbody>();
+            //    rigidbody.mass = mass;
+            //}
+        }
 
         #endregion
 
@@ -62,9 +78,10 @@ namespace ShapeshiftableObjects
             }
         }
 
-        public void DisableInView()
+        public void DisablePhysics()
         {
             inViewCollider.enabled = false;
+            Physics = false;
         }
 
         #endregion
