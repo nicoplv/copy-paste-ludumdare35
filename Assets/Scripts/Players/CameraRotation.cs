@@ -22,7 +22,7 @@ namespace Players
 
         [SerializeField]
         protected Transform lookAt;
-        public Transform LookAt { set { lookAt = value; } }
+        public Transform LookAt { get { return lookAt; } set { lookAt = value; } }
 
         [SerializeField]
         protected Vector2 limitY = new Vector2(-60f, 60f);
@@ -41,7 +41,7 @@ namespace Players
             game = Games.Game.Instance;
             controler = Controlers.Controler.Instance;
 
-            // Init camera look at
+            // Init camera position and look at
             camera.transform.LookAt(lookAt);
         }
 
@@ -62,7 +62,7 @@ namespace Players
                     secondRotation.localEulerAngles = new Vector3(rotationY, 0, 0);
                 }
 
-                // Update camera look at
+                // Update camera position and look at
                 camera.transform.LookAt(lookAt);
             }
         }

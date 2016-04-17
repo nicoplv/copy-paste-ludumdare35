@@ -15,7 +15,7 @@ namespace ShapeshiftableObjects
         public string Resource { get { return resource; } }
 
         [SerializeField]
-        protected Collider inViewCollider;
+        protected List<Collider> inViewColliders = new List<Collider>();
 
         protected bool Physics = true;
         protected new Rigidbody rigidbody;
@@ -29,10 +29,26 @@ namespace ShapeshiftableObjects
         public float Mass { get { return mass; } }
 
         [SerializeField]
+        protected float drag = 1f;
+        public float Drag { get { return drag; } }
+
+        [SerializeField]
+        protected float angularDrag = 1f;
+        public float AngularDrag { get { return angularDrag; } }
+
+        [SerializeField]
         protected List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
 
         [SerializeField]
         protected Material inViewMaterial;
+
+        [SerializeField]
+        protected Transform leftEye;
+        public Transform LeftEye { get { return leftEye; } }
+
+        [SerializeField]
+        protected Transform rightEye;
+        public Transform RightEye { get { return rightEye; } }
 
         #endregion
 
@@ -40,11 +56,13 @@ namespace ShapeshiftableObjects
 
         public void Start()
         {
-            //if (Physics)
-            //{
-            //    rigidbody = gameObject.AddComponent<Rigidbody>();
-            //    rigidbody.mass = mass;
-            //}
+            if (Physics)
+            {
+                rigidbody = gameObject.AddComponent<Rigidbody>();
+                rigidbody.mass = mass;
+                rigidbody.drag = drag;
+                rigidbody.angularDrag = angularDrag;
+            }
         }
 
         #endregion
@@ -80,7 +98,8 @@ namespace ShapeshiftableObjects
 
         public void DisablePhysics()
         {
-            inViewCollider.enabled = false;
+            foreach(Collider iCollider in inViewColliders)
+                iCollider.enabled = false;
             Physics = false;
         }
 

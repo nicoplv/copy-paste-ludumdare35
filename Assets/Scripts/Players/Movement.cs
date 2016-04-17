@@ -18,34 +18,16 @@ namespace Players
         public Rigidbody Rigidbody { get { return rigidbody; } }
 
         [SerializeField]
-        protected float groundedVelocity = 1f;
+        protected float velocityFactor = 1f;
 
         [SerializeField]
-        protected float noGroundedVelocity = 0.5f;
+        protected float velocityClamp = 5f;
 
         [SerializeField]
-        private float groundedMovementInertia = 0.1f;
-
-        [SerializeField]
-        private float noGroundedMovementInertia = 0.5f;
-
-        [SerializeField]
-        private float maxVelocity = 2f;
-
-        [SerializeField]
-        private float minVelocity = 0.1f;
-
-        private Vector3 velocity = Vector3.zero;
-        public Vector3 Velocity { get { return velocity; } }
+        protected float rotationInertia = 5f;
 
         [SerializeField]
         private float gravity = 10f;
-        [SerializeField]
-        private float noGroundedGravityVelocityCap = 20f;
-        [SerializeField]
-        private float groundedGravityVelocityCap = 20f;
-        [SerializeField]
-        private float groundedDistance = 0.05f;
 
         private bool grounded = false;
         public bool Grounded { get { return grounded; } }
@@ -77,36 +59,35 @@ namespace Players
             {
                 // Get move input
                 Vector2 inputMove = controler.PlayerMove();
-                Vector3 inputMoveWithRotation = Quaternion.FromToRotation(Vector3.forward, player.CameraRotation.transform.forward) * (new Vector3(inputMove.x, 0, inputMove.y));
-                //Vector3 inputMoveWithRotation = Quaternion.FromToRotation(Vector3.forward, transform.forward) * (new Vector3(inputMove.x, 0, inputMove.y));
+                Vector3 inputMoveWithRotation = Quaternion.FromToRotation(Vector3.forward, player.CurrentShapeshiftableObject.transform.forward) * (new Vector3(inputMove.x, 0, inputMove.y));
+                inputMoveWithRotation.y = 0;
 
-                Vector3 velocityBuffer = velocity;
-                Vector3 groundNormal = Vector3.up;
-
-                // Calculate if grounded and update variables
-                RaycastHit raycastHit;
-                grounded = Physics.Raycast(transform.position + Vector3.up * groundedDistance, Vector3.down, out raycastHit, groundedDistance * 2);
-                if (grounded && !jumping)
+                // Rotate player
+                if (inputMove != Vector2.zero)
                 {
-                    // Apply inertia on velocity
-                    velocity *= groundedMovementInertia;
-
-                    // Set ground normal
-                    groundNormal = raycastHit.normal;
-
-                    // Apply ground normal rotation
-                    inputMoveWithRotation = Quaternion.FromToRotation(Vector3.up, groundNormal) * inputMoveWithRotation;
-                }
-                else
-                {
-                    // Apply inertia on velocity but not y
-                    velocity.x *= noGroundedMovementInertia;
-                    velocity.y = Mathf.Min(0, velocity.y);
-                    velocity.z *= noGroundedMovementInertia;
+                    Vector3 cameraForward = player.CameraRotation.transform.forward;
+                    cameraForward.y = 0;
+                    Quaternion lookRotation = Quaternion.LookRotation(cameraForward);
+                    player.CurrentShapeshiftableObject.transform.rotation = Quaternion.Slerp(player.CurrentShapeshiftableObject.transform.rotation, lookRotation, rotationInertia * game.DeltaTimeRun);
                 }
 
-                // Adding move velocity to velocity
-                velocity += inputMoveWithRotation * ((grounded) ? groundedVelocity : noGroundedVelocity);
+                // Calculate target velocity on x and z
+                Vector3 targetVelocity = inputMoveWithRotation * velocityFactor / rigidbody.mass / game.DeltaTimeRun;
+
+                // Calculate change velocity on x and z
+                Vector3 movementVelocityBuffer = rigidbody.velocity;
+                movementVelocityBuffer.y = 0;
+                Vector3 changeVelocity = (targetVelocity - movementVelocityBuffer);
+                changeVelocity.y = 0;
+
+                // Clamp velocity
+                float magnitude = changeVelocity.magnitude;
+                if (magnitude > velocityClamp)
+                    changeVelocity = changeVelocity / magnitude * velocityClamp;
+
+                // Add change velocity force
+                if (changeVelocity != Vector3.zero)
+                rigidbody.AddForce(changeVelocity, ForceMode.VelocityChange);
 
                 // Check jump
                 float inputJumpStartTime;
@@ -132,40 +113,27 @@ namespace Players
                         jumping = false;
                 }
 
-                // Adding gravity or jump velocity
-                if (!jumpingHold)
-                {
-                    velocity.y += velocityBuffer.y - gravity * game.FixedDeltaTimeRun;
-                    if(grounded)
-                        velocity.y = Mathf.Max(velocity.y, -groundedGravityVelocityCap);
-                    else
-                        velocity.y = Mathf.Max(velocity.y, -noGroundedGravityVelocityCap);
-                }
-                else
-                {
-                    velocity.y += Mathf.Max(velocityBuffer.y, 0f);
-                    velocity += Vector3.up * jumpVelocity * ((jumpTimeMax - (game.FixedTimeRun - jumpStartTime)) / jumpTimeMax).Sqr();
-                }
+                // Apply jump velocity
+                if (jumpingHold)
+                    rigidbody.AddForce(Vector3.up * jumpVelocity * ((jumpTimeMax - (game.FixedTimeRun - jumpStartTime)) / jumpTimeMax).Sqr() / Mathf.Sqrt(rigidbody.mass), ForceMode.VelocityChange);
 
-                // Clamp X and Z movement velocity
-                Vector2 movementVelocity = new Vector2(velocity.x, velocity.z);
-                float movementVelocityMagnitude = movementVelocity.magnitude;
-                if (movementVelocityMagnitude <= minVelocity)
-                {
-                    velocity.x = 0;
-                    velocity.z = 0;
-                }
-                else if(movementVelocityMagnitude >= maxVelocity)
-                {
-                    velocity.x *= maxVelocity / movementVelocityMagnitude;
-                    velocity.z *= maxVelocity / movementVelocityMagnitude;
-                }
+                // Apply gravity
+                rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass, 0));
 
-                // Apply velocity
-                rigidbody.MovePosition(transform.position + velocity * game.FixedDeltaTimeRun);
+                // Reset grouded
+                grounded = false;
             }
         }
 
+        public void OnCollisionStay(Collision _collision)
+        {
+            foreach (ContactPoint iContact in _collision.contacts)
+            {
+                if (Vector3.Angle(transform.up, iContact.normal) < 5f)
+                    grounded = true;
+            }
+        }
+        
         #endregion
     }
 }

@@ -14,6 +14,9 @@ namespace Players
         public Player Player { get { return player; } }
 
         [SerializeField]
+        protected float upCorrection = .25f;
+
+        [SerializeField]
         protected float maxDistance = 10f;
 
         protected ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectInView = null;
@@ -36,7 +39,7 @@ namespace Players
             {
                 // Object in view
                 RaycastHit raycastHit;
-                if (Physics.Raycast(player.CameraRotation.Camera.transform.position, player.CameraRotation.Camera.transform.forward, out raycastHit, maxDistance, Statics.Layers.Object.Mask))
+                if (Physics.Raycast(player.CameraRotation.LookAt.transform.position, player.CameraRotation.Camera.transform.forward + (upCorrection * Vector3.up), out raycastHit, maxDistance, Statics.Layers.Object.Mask))
                 {
                     ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectInViewBuffer = shapeshiftableObjectInView;
                     shapeshiftableObjectInView = raycastHit.collider.GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
