@@ -15,6 +15,12 @@ namespace Cores
         protected Games.Game game;
         protected Controlers.Controler controler;
 
+        protected bool powerCopyPaste = false;
+        public bool PowerCopyPaste { get { return powerCopyPaste; } }
+
+        protected bool powerShapeshift = false;
+        public bool PowerShapeshift { get { return powerShapeshift; } }
+
         #endregion
 
         #region Unity Methods
@@ -24,6 +30,20 @@ namespace Cores
             base.Awake();
             game = Games.Game.Instance;
             controler = Controlers.Controler.Instance;
+        }
+
+        #endregion
+
+        #region Unlock Methods
+
+        public void UnlockCopyPaste()
+        {
+            powerCopyPaste = true;
+        }
+
+        public void UnlockShapeshift()
+        {
+            powerShapeshift = true;
         }
 
         #endregion

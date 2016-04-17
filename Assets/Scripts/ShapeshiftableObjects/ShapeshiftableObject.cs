@@ -17,12 +17,20 @@ namespace ShapeshiftableObjects
         [SerializeField]
         protected List<Collider> inViewColliders = new List<Collider>();
 
+        [SerializeField]
+        protected List<Collider> collisionCollider = new List<Collider>();
+        public List<Collider> CollisionCollider { get { return collisionCollider; } }
+
         protected bool Physics = true;
         protected new Rigidbody rigidbody;
 
         [SerializeField]
         protected Transform lookAt;
         public Transform LookAt { get { return lookAt; } }
+
+        [SerializeField]
+        protected float cameraDistance = 5f;
+        public float CameraDistance { get { return cameraDistance; } }
 
         [SerializeField]
         protected float mass = 1f;
@@ -53,7 +61,7 @@ namespace ShapeshiftableObjects
         #endregion
 
         #region Unity Methods
-
+        
         public void Start()
         {
             if (Physics)

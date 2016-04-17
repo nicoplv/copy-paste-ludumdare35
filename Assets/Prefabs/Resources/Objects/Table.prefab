@@ -13,7 +13,7 @@ GameObject:
   - 65: {fileID: 6516146}
   - 65: {fileID: 6550790}
   - 65: {fileID: 6597704}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,21 +455,29 @@ MonoBehaviour:
       ObjeckLink: 1149417112
       PropertyPath: m_RootOrder
       Mode: 0
-    - Object: {fileID: 467762}
-      ObjeckLink: -456857179
-      PropertyPath: m_LocalPosition
+    - Object: {fileID: 11479240}
+      ObjeckLink: 422823002
+      PropertyPath: collisionCollider.Array.size
       Mode: 0
-    - Object: {fileID: 467762}
-      ObjeckLink: -456857179
-      PropertyPath: m_LocalScale
+    - Object: {fileID: 11479240}
+      ObjeckLink: 422823002
+      PropertyPath: collisionCollider.Array.data[0]
       Mode: 0
-    - Object: {fileID: 472042}
-      ObjeckLink: -36035833
-      PropertyPath: m_LocalPosition
+    - Object: {fileID: 11479240}
+      ObjeckLink: 422823002
+      PropertyPath: collisionCollider.Array.data[1]
       Mode: 0
-    - Object: {fileID: 472042}
-      ObjeckLink: -36035833
-      PropertyPath: m_LocalScale
+    - Object: {fileID: 11479240}
+      ObjeckLink: 422823002
+      PropertyPath: collisionCollider.Array.data[2]
+      Mode: 0
+    - Object: {fileID: 11479240}
+      ObjeckLink: 422823002
+      PropertyPath: collisionCollider.Array.data[3]
+      Mode: 0
+    - Object: {fileID: 11479240}
+      ObjeckLink: 422823002
+      PropertyPath: collisionCollider.Array.data[4]
       Mode: 0
     NonPrefabObjects: []
     NonPrefabComponents: []
@@ -495,7 +503,14 @@ MonoBehaviour:
   - {fileID: 6571080}
   - {fileID: 6559754}
   - {fileID: 6579834}
+  collisionCollider:
+  - {fileID: 6508660}
+  - {fileID: 6559056}
+  - {fileID: 6516146}
+  - {fileID: 6550790}
+  - {fileID: 6597704}
   lookAt: {fileID: 487704}
+  cameraDistance: 10
   mass: 70
   drag: 0.05
   angularDrag: 0.5

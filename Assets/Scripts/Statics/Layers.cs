@@ -16,6 +16,8 @@ namespace Statics
 		public static Layer Water = new Layer("Water");
 		public static Layer UI = new Layer("UI");
 		public static Layer Object = new Layer("Object");
+		public static Layer Collider = new Layer("Collider");
+		public static Layer PlayerTrigger = new Layer("PlayerTrigger");
 		
 		#endregion
 	
@@ -29,6 +31,8 @@ namespace Statics
 			Water,
 			UI,
 			Object,
+			Collider,
+			PlayerTrigger,
 		};
 		
 		#endregion

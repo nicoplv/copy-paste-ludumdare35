@@ -7,6 +7,7 @@ namespace Players
         #region Variables
 
         protected Games.Game game;
+        protected Cores.Core core;
         protected Controlers.Controler controler;
 
         [SerializeField]
@@ -30,6 +31,7 @@ namespace Players
         public void Awake()
         {
             game = Games.Game.Instance;
+            core = Cores.Core.Instance;
             controler = Controlers.Controler.Instance;
         }
 
@@ -38,40 +40,43 @@ namespace Players
             if (game.IsRun)
             {
                 // Object in view
-                RaycastHit raycastHit;
-                if (Physics.Raycast(player.CameraRotation.LookAt.transform.position, player.CameraRotation.Camera.transform.forward + (upCorrection * Vector3.up), out raycastHit, maxDistance, Statics.Layers.Object.Mask))
+                if (core.PowerShapeshift || core.PowerCopyPaste)
                 {
-                    ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectInViewBuffer = shapeshiftableObjectInView;
-                    shapeshiftableObjectInView = raycastHit.collider.GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
-                    if (shapeshiftableObjectInView != shapeshiftableObjectInViewBuffer)
+                    RaycastHit raycastHit;
+                    if (Physics.Raycast(player.CameraRotation.LookAt.transform.position, player.CameraRotation.Camera.transform.forward + (upCorrection * Vector3.up), out raycastHit, maxDistance, Statics.Layers.Object.Mask | Statics.Layers.Collider.Mask))
+                    {
+                        ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectInViewBuffer = shapeshiftableObjectInView;
+                        shapeshiftableObjectInView = raycastHit.collider.GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
+                        if (shapeshiftableObjectInView != shapeshiftableObjectInViewBuffer)
+                        {
+                            if (shapeshiftableObjectInView != null)
+                                shapeshiftableObjectInView.InViewStart();
+                            if (shapeshiftableObjectInViewBuffer != null)
+                                shapeshiftableObjectInViewBuffer.InViewEnd();
+                        }
+                    }
+                    else
                     {
                         if (shapeshiftableObjectInView != null)
-                            shapeshiftableObjectInView.InViewStart();
-                        if (shapeshiftableObjectInViewBuffer != null)
-                            shapeshiftableObjectInViewBuffer.InViewEnd();
+                            shapeshiftableObjectInView.InViewEnd();
+                        shapeshiftableObjectInView = null;
                     }
-                }
-                else
-                {
-                    if(shapeshiftableObjectInView != null)
-                        shapeshiftableObjectInView.InViewEnd();
-                    shapeshiftableObjectInView = null;
                 }
 
                 // Player Shapeshift
-                if (controler.PlayerShapeshift() && shapeshiftableObjectInView != null)
+                if (core.PowerShapeshift && controler.PlayerShapeshift() && shapeshiftableObjectInView != null)
                     player.ShapeshiftTo(shapeshiftableObjectInView);
 
                 // Player Unshapeshift
-                if (controler.PlayerUnshapeshift())
+                if (core.PowerShapeshift && controler.PlayerUnshapeshift())
                     player.Unshapeshift();
 
                 // Player Copy
-                if (controler.PlayerCopy() && shapeshiftableObjectInView != null)
+                if (core.PowerCopyPaste && controler.PlayerCopy() && shapeshiftableObjectInView != null)
                     shapeshiftableObjectCopied = shapeshiftableObjectInView;
 
                 // Player Paste
-                if (controler.PlayerPaste() && shapeshiftableObjectInView != null && shapeshiftableObjectCopied != null)
+                if (core.PowerCopyPaste && controler.PlayerPaste() && shapeshiftableObjectInView != null && shapeshiftableObjectCopied != null)
                 {
                     // Instantiate new object
                     ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectBuffer = Instantiate(Resources.Load<GameObject>("Objects/" + shapeshiftableObjectCopied.Resource)).GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();

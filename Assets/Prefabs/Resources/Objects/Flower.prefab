@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 451334}
   - 65: {fileID: 6597600}
   - 135: {fileID: 13556334}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +273,11 @@ MonoBehaviour:
   resource: Flower
   inViewColliders:
   - {fileID: 13508650}
+  collisionCollider:
+  - {fileID: 6597600}
+  - {fileID: 13556334}
   lookAt: {fileID: 463064}
+  cameraDistance: 5
   mass: 15
   drag: 0.1
   angularDrag: 0.5
@@ -345,18 +349,20 @@ MonoBehaviour:
       ObjeckLink: -1552384709
       PropertyPath: m_RootOrder
       Mode: 0
-    - Object: {fileID: 6597600}
-      ObjeckLink: -1746837677
-      PropertyPath: m_Size
+    - Object: {fileID: 11450318}
+      ObjeckLink: 1331994568
+      PropertyPath: collisionCollider.Array.size
       Mode: 0
-    - Object: {fileID: 6597600}
-      ObjeckLink: -1746837677
-      PropertyPath: m_Center
+    - Object: {fileID: 11450318}
+      ObjeckLink: 1331994568
+      PropertyPath: collisionCollider.Array.data[0]
+      Mode: 0
+    - Object: {fileID: 11450318}
+      ObjeckLink: 1331994568
+      PropertyPath: collisionCollider.Array.data[1]
       Mode: 0
     NonPrefabObjects: []
-    NonPrefabComponents:
-    - child: {fileID: 13556334}
-      parent: {fileID: 106862}
+    NonPrefabComponents: []
     RemovedObjects: 
     TransformParentChanges: []
   ParentPrefabGUID: 

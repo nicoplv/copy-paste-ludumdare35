@@ -41,7 +41,7 @@ namespace Players
             game = Games.Game.Instance;
             controler = Controlers.Controler.Instance;
 
-            // Init camera position and look at
+            // Init camera look at
             camera.transform.LookAt(lookAt);
         }
 
@@ -62,9 +62,49 @@ namespace Players
                     secondRotation.localEulerAngles = new Vector3(rotationY, 0, 0);
                 }
 
-                // Update camera position and look at
-                camera.transform.LookAt(lookAt);
-            }
+                // Manage camera distance
+                float cameraDistanceMax = player.CurrentShapeshiftableObject.CameraDistance;
+                float cameraDistanceMin = player.CurrentShapeshiftableObject.CameraDistance / 3f;
+                RaycastHit[] raycastHits = Physics.RaycastAll(lookAt.position, - secondRotation.transform.forward, cameraDistanceMax, Statics.Layers.Collider.Mask);
+                if(raycastHits.Length > 0)
+                {
+                    foreach (RaycastHit iRaycastHit in raycastHits)
+                    {
+                        // Check if not same object collision
+                        bool sameObjectCollision = false;
+                        foreach (Collider iCollider in player.CurrentShapeshiftableObject.CollisionCollider)
+                        {
+                            if (iCollider == iRaycastHit.collider)
+                            {
+                                sameObjectCollision = true;
+                                break;
+                            }
+                        }
+                        if (!sameObjectCollision)
+                        {
+                            float distanceBuffer = (iRaycastHit.point - lookAt.position).magnitude;
+                            if (distanceBuffer < cameraDistanceMax)
+                                cameraDistanceMax = distanceBuffer;
+                        }
+                    }
+                }
+
+                if (cameraDistanceMax < cameraDistanceMin)
+                {
+                    Vector3 minDisplacement = secondRotation.transform.forward;
+                    minDisplacement.y = 0;
+                    camera.transform.position = lookAt.position - minDisplacement * cameraDistanceMin;
+                    //cameraDistanceMax = cameraDistanceMin;
+                }
+                else
+                {
+                    camera.transform.localPosition = new Vector3(0, 0, -cameraDistanceMax);
+
+                    // Update camera look at
+                    camera.transform.LookAt(lookAt);
+                }
+
+                }
         }
 
         #endregion

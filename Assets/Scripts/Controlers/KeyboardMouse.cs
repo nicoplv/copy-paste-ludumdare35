@@ -65,22 +65,22 @@ namespace Controlers
 
         public override bool PlayerShapeshift()
         {
-            return Input.GetMouseButtonDown(0);
+            return Input.GetMouseButtonDown(2);
         }
 
         public override bool PlayerUnshapeshift()
         {
-            return Input.GetMouseButtonDown(1);
+            return Input.GetKey(KeyCode.LeftShift);
         }
 
         public override bool PlayerCopy()
         {
-            return Input.GetMouseButtonDown(2) && !Input.GetKey(KeyCode.LeftShift);
+            return Input.GetMouseButtonDown(0);
         }
 
         public override bool PlayerPaste()
         {
-            return Input.GetMouseButtonDown(2) && Input.GetKey(KeyCode.LeftShift);
+            return Input.GetMouseButtonDown(1);
         }
 
         #endregion

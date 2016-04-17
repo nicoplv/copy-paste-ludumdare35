@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor;
 
-public class EditorGUILayoutExtensions : MonoBehaviour
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+public static class EditorGUILayoutExtensions
 {
+#if UNITY_EDITOR
     static List<string> layers;
     static long lastUpdateTick;
 
@@ -24,4 +28,5 @@ public class EditorGUILayoutExtensions : MonoBehaviour
 
         return EditorGUILayout.MaskField(_label, _selected.value, layers.ToArray());
     }
+#endif
 }

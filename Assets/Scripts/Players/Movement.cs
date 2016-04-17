@@ -72,7 +72,7 @@ namespace Players
                 }
 
                 // Calculate target velocity on x and z
-                Vector3 targetVelocity = inputMoveWithRotation * velocityFactor / rigidbody.mass / game.DeltaTimeRun;
+                Vector3 targetVelocity = inputMoveWithRotation * velocityFactor / rigidbody.mass; // * game.DeltaTimeRun;
 
                 // Calculate change velocity on x and z
                 Vector3 movementVelocityBuffer = rigidbody.velocity;
