@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace ShapeshiftableObjects
+namespace Players
 {
     public class ShapeshiftableObject : MonoBehaviour
     {
@@ -21,7 +21,9 @@ namespace ShapeshiftableObjects
         protected List<Collider> collisionCollider = new List<Collider>();
         public List<Collider> CollisionCollider { get { return collisionCollider; } }
 
-        protected bool Physics = true;
+        [SerializeField]
+        protected bool physics = true;
+
         protected new Rigidbody rigidbody;
 
         [SerializeField]
@@ -58,13 +60,17 @@ namespace ShapeshiftableObjects
         protected Transform rightEye;
         public Transform RightEye { get { return rightEye; } }
 
+        [SerializeField]
+        protected Bulle bulle;
+        public Bulle Bulle { get { return bulle; } }
+
         #endregion
 
         #region Unity Methods
-        
+
         public void Start()
         {
-            if (Physics)
+            if (physics)
             {
                 rigidbody = gameObject.AddComponent<Rigidbody>();
                 rigidbody.mass = mass;
@@ -108,7 +114,7 @@ namespace ShapeshiftableObjects
         {
             foreach(Collider iCollider in inViewColliders)
                 iCollider.enabled = false;
-            Physics = false;
+            physics = false;
         }
 
         #endregion

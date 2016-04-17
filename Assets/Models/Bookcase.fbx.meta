@@ -1,27 +1,15 @@
 fileFormatVersion: 2
-guid: 83d105137cf10fa419a6dbce89787708
-timeCreated: 1460921912
+guid: f6dd1600077cb8a4f9f9812ebb1cfe93
+timeCreated: 1460924133
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: DoorpostStart
-    100002: //RootNode
-    100004: RoomStart
-    100006: RoomMiddle
-    400000: DoorpostStart
-    400002: //RootNode
-    400004: RoomStart
-    400006: RoomMiddle
-    2300000: DoorpostStart
-    2300002: RoomStart
-    2300004: RoomMiddle
-    3300000: DoorpostStart
-    3300002: RoomStart
-    3300004: RoomMiddle
-    4300000: DoorpostStart
-    4300002: RoomStart
-    4300004: RoomMiddle
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Bookcase
     11400000: //RootNode
   materials:
     importMaterials: 0

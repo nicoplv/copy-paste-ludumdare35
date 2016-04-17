@@ -27,11 +27,11 @@ namespace Players
         public Gaze Gaze { get { return gaze; } }
 
         [SerializeField]
-        protected ShapeshiftableObjects.ShapeshiftableObject defaultShapeshiftableObject;
+        protected ShapeshiftableObject defaultShapeshiftableObject;
 
         [SerializeField]
-        protected ShapeshiftableObjects.ShapeshiftableObject currentShapeshiftableObject;
-        public ShapeshiftableObjects.ShapeshiftableObject CurrentShapeshiftableObject { get { return currentShapeshiftableObject; } }
+        protected ShapeshiftableObject currentShapeshiftableObject;
+        public ShapeshiftableObject CurrentShapeshiftableObject { get { return currentShapeshiftableObject; } }
 
         [SerializeField]
         protected float eyesLookAtAngle = 100f;
@@ -54,6 +54,9 @@ namespace Players
             base.Awake();
 
             game = Games.Game.Instance;
+
+            // Hide the cursor
+            Cursor.visible = false;
 
             // Initialize shapeshift
             Unshapeshift();
@@ -91,7 +94,7 @@ namespace Players
 
         #region Shapeshift Methods
 
-        public void ShapeshiftTo(ShapeshiftableObjects.ShapeshiftableObject _shapeshiftableObject)
+        public void ShapeshiftTo(ShapeshiftableObject _shapeshiftableObject)
         {
             // Buffer rotation
             Quaternion rotationBuffer = currentShapeshiftableObject.transform.localRotation;
@@ -100,7 +103,7 @@ namespace Players
             Destroy(currentShapeshiftableObject.gameObject);
 
             // Instantiate new object
-            currentShapeshiftableObject = Instantiate(Resources.Load<GameObject>("Objects/" + _shapeshiftableObject.Resource)).GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
+            currentShapeshiftableObject = Instantiate(Resources.Load<GameObject>("Objects/" + _shapeshiftableObject.Resource)).GetComponent<ShapeshiftableObject>();
             currentShapeshiftableObject.transform.SetParent(transform, false);
             currentShapeshiftableObject.transform.localPosition = Vector3.zero;
             currentShapeshiftableObject.transform.localRotation = rotationBuffer;

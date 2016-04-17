@@ -20,9 +20,9 @@ namespace Players
         [SerializeField]
         protected float maxDistance = 10f;
 
-        protected ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectInView = null;
+        protected ShapeshiftableObject shapeshiftableObjectInView = null;
 
-        protected ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectCopied = null;
+        protected ShapeshiftableObject shapeshiftableObjectCopied = null;
 
         #endregion
 
@@ -45,8 +45,8 @@ namespace Players
                     RaycastHit raycastHit;
                     if (Physics.Raycast(player.CameraRotation.LookAt.transform.position, player.CameraRotation.Camera.transform.forward + (upCorrection * Vector3.up), out raycastHit, maxDistance, Statics.Layers.Object.Mask | Statics.Layers.Collider.Mask))
                     {
-                        ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectInViewBuffer = shapeshiftableObjectInView;
-                        shapeshiftableObjectInView = raycastHit.collider.GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
+                        ShapeshiftableObject shapeshiftableObjectInViewBuffer = shapeshiftableObjectInView;
+                        shapeshiftableObjectInView = raycastHit.collider.GetComponent<ShapeshiftableObject>();
                         if (shapeshiftableObjectInView != shapeshiftableObjectInViewBuffer)
                         {
                             if (shapeshiftableObjectInView != null)
@@ -79,7 +79,7 @@ namespace Players
                 if (core.PowerCopyPaste && controler.PlayerPaste() && shapeshiftableObjectInView != null && shapeshiftableObjectCopied != null)
                 {
                     // Instantiate new object
-                    ShapeshiftableObjects.ShapeshiftableObject shapeshiftableObjectBuffer = Instantiate(Resources.Load<GameObject>("Objects/" + shapeshiftableObjectCopied.Resource)).GetComponent<ShapeshiftableObjects.ShapeshiftableObject>();
+                    ShapeshiftableObject shapeshiftableObjectBuffer = Instantiate(Resources.Load<GameObject>("Objects/" + shapeshiftableObjectCopied.Resource)).GetComponent<ShapeshiftableObject>();
                     shapeshiftableObjectBuffer.transform.position = shapeshiftableObjectInView.transform.position;
                     shapeshiftableObjectBuffer.transform.rotation = shapeshiftableObjectInView.transform.rotation;
 

@@ -75,12 +75,12 @@ namespace Controlers
 
         public override bool PlayerCopy()
         {
-            return Input.GetMouseButtonDown(0);
+            return Input.GetMouseButtonDown(1);
         }
 
         public override bool PlayerPaste()
         {
-            return Input.GetMouseButtonDown(1);
+            return Input.GetMouseButtonDown(0);
         }
 
         #endregion
