@@ -20,7 +20,7 @@ namespace Controlers
 
 		#region Game Controler Methods
 
-		public virtual bool GamePause()
+		public virtual bool GameQuit()
 		{
 			return false;
 		}

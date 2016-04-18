@@ -13,6 +13,7 @@ namespace Players
         #region Variables
 
         protected Games.Game game;
+        protected Controlers.Controler controler;
 
         [SerializeField]
         protected Movement movement;
@@ -54,6 +55,7 @@ namespace Players
             base.Awake();
 
             game = Games.Game.Instance;
+            controler = Controlers.Controler.Instance;
 
             // Hide the cursor
             Cursor.visible = false;
@@ -64,30 +66,37 @@ namespace Players
 
         public void Update()
         {
-            // Update eyes position
-            leftEye.transform.position = currentShapeshiftableObject.LeftEye.position;
-            rightEye.transform.position = currentShapeshiftableObject.RightEye.position;
-            
-            // Update eyes scale
-            leftEye.transform.localScale = currentShapeshiftableObject.LeftEye.localScale;
-            rightEye.transform.localScale = currentShapeshiftableObject.RightEye.localScale;
-
-            // Update eyes rotation with look camera
-            Quaternion leftEyeRotation = currentShapeshiftableObject.LeftEye.rotation; ;
-            Quaternion rightEyeRotation = currentShapeshiftableObject.RightEye.rotation; ;
-            Vector3 currentShapeshiftableObjectXYForward = currentShapeshiftableObject.transform.forward;
-            currentShapeshiftableObjectXYForward.y = 0;
-            Vector3 cameraXYForward = CameraRotation.Camera.transform.forward;
-            cameraXYForward.y = 0;
-            if (Vector3.Angle(currentShapeshiftableObjectXYForward, cameraXYForward) > eyesLookAtAngle)
+            if (game.IsRun)
             {
-                Quaternion lookRotationLeftEye = Quaternion.LookRotation(CameraRotation.Camera.transform.position - leftEye.transform.position);
-                Quaternion lookRotationRightEye = Quaternion.LookRotation(CameraRotation.Camera.transform.position - rightEye.transform.position);
-                leftEyeRotation = lookRotationLeftEye;
-                rightEyeRotation = lookRotationRightEye;
+                // Exit button
+                if (controler.GameQuit())
+                    Application.Quit();
+
+                // Update eyes position
+                leftEye.transform.position = currentShapeshiftableObject.LeftEye.position;
+                rightEye.transform.position = currentShapeshiftableObject.RightEye.position;
+
+                // Update eyes scale
+                leftEye.transform.localScale = currentShapeshiftableObject.LeftEye.localScale;
+                rightEye.transform.localScale = currentShapeshiftableObject.RightEye.localScale;
+
+                // Update eyes rotation with look camera
+                Quaternion leftEyeRotation = currentShapeshiftableObject.LeftEye.rotation; ;
+                Quaternion rightEyeRotation = currentShapeshiftableObject.RightEye.rotation; ;
+                Vector3 currentShapeshiftableObjectXYForward = currentShapeshiftableObject.transform.forward;
+                currentShapeshiftableObjectXYForward.y = 0;
+                Vector3 cameraXYForward = CameraRotation.Camera.transform.forward;
+                cameraXYForward.y = 0;
+                if (Vector3.Angle(currentShapeshiftableObjectXYForward, cameraXYForward) > eyesLookAtAngle)
+                {
+                    Quaternion lookRotationLeftEye = Quaternion.LookRotation(CameraRotation.Camera.transform.position - leftEye.transform.position);
+                    Quaternion lookRotationRightEye = Quaternion.LookRotation(CameraRotation.Camera.transform.position - rightEye.transform.position);
+                    leftEyeRotation = lookRotationLeftEye;
+                    rightEyeRotation = lookRotationRightEye;
+                }
+                leftEye.transform.rotation = Quaternion.Slerp(leftEye.transform.rotation, leftEyeRotation, eyesRotationInertia * game.DeltaTimeRun);
+                rightEye.transform.rotation = Quaternion.Slerp(rightEye.transform.rotation, rightEyeRotation, eyesRotationInertia * game.DeltaTimeRun);
             }
-            leftEye.transform.rotation = Quaternion.Slerp(leftEye.transform.rotation, leftEyeRotation, eyesRotationInertia * game.DeltaTimeRun);
-            rightEye.transform.rotation = Quaternion.Slerp(rightEye.transform.rotation, rightEyeRotation, eyesRotationInertia * game.DeltaTimeRun);
         }
 
         #endregion

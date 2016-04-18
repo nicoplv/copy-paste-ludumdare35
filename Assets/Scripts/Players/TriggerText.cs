@@ -20,6 +20,14 @@ namespace Players
             player = Player.Instance;
         }
 
+        public void OnTriggerEnter(Collider _collider)
+        {
+            if (_collider.tag == Statics.Tags.Player)
+            {
+                player.CurrentShapeshiftableObject.Bulle.SetText(text);
+            }
+        }
+
         public void OnTriggerStay(Collider _collider)
         {
             if (_collider.tag == Statics.Tags.Player)

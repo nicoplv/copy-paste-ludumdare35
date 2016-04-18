@@ -39,6 +39,15 @@ namespace Controlers
 
         #region Game Controler Methods
 
+        public override bool GameQuit()
+        {
+            return Input.GetKey(KeyCode.Escape);
+        }
+
+        #endregion
+
+        #region Player Controler Methods
+
         public override Vector2 PlayerRotation()
         {
             return new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
@@ -58,10 +67,6 @@ namespace Controlers
             _startTime = playerJumpStartTime;
             return playerJump;
         }
-
-        #endregion
-
-        #region Player Controler Methods
 
         public override bool PlayerShapeshift()
         {

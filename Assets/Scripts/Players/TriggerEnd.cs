@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Players
 {
-    public class TriggerUnactive : MonoBehaviour
+    public class TriggerEnd : MonoBehaviour
     {
         #region Variables Methods
 
         [SerializeField]
-        protected List<GameObject> gameObjects = new List<GameObject>();
+        protected GameObject gameObjectEnd;
 
         #endregion
 
@@ -18,9 +18,7 @@ namespace Players
         {
             if (_collider.tag == Statics.Tags.Player)
             {
-                foreach (GameObject iGameObject in gameObjects)
-                    iGameObject.SetActive(false);
-                gameObject.SetActive(false);
+                gameObjectEnd.SetActive(true);
             }
         }
 
